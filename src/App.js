@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import Task from './Task.js';
-
 class App extends React.Component {
   state = {
     tasks: [
