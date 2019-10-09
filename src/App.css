@@ -1,7 +1,6 @@
 .wrap {
   width: 80%;
   margin: auto;
- 
 }
 
 ul {
@@ -9,8 +8,6 @@ ul {
   list-style: none;
   padding-left: 0;
   margin: 0;
-
- 
 }
 
 .taskAdd {
@@ -29,15 +26,11 @@ ul {
 
 .singeTask {
   border: solid green;
-  
 }
 
 .typesearch {
   width: 100%;
-
 }
-
-
 
 .App {
   text-align: center;
