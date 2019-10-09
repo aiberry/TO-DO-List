@@ -7,16 +7,19 @@ class App extends React.Component {
     tasks: [
       {
         name: "Get tickets",
-        isDone: "alreadyDone"
+        isDone: "alreadyDone",
+        key: 88
+
       },
       {
         name: "Get bread",
-        isDone: "notDone"
+        isDone: "notDone",
+        key: 99
       }
     ],
     searchText: ""
   };
-
+  
   taskClicked = event => {
     this.setState({
       tasks: this.state.tasks.map(element => {
