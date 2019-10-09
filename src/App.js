@@ -7,12 +7,12 @@ class App extends React.Component {
     tasks: [
       {
         name: '24',
-        statusClass: 24,
+        status: "done",
         key: 88
       },
       {
         name: 'Get bread',
-        statusClass: 'notDone',
+        status: 'undone',
         key: 99
       }
     ],
@@ -25,10 +25,10 @@ class App extends React.Component {
         if (element.name === event.target.innerHTML) {
           return {
             ...element,
-            statusClass:
-              element.statusClass === 'notDone'
-                ? (element.statusClass = 'alreadyDone')
-                : (element.statusClass = 'notDone')
+            status:
+              element.status === 'undone'
+                ? (element.status = 'done')
+                : (element.status = 'undone')
           };
         } else {
           return element;
@@ -50,7 +50,7 @@ class App extends React.Component {
             ...state.tasks,
             {
               name: this.taskValue,
-              statusClass: 'notDone',
+              status: 'undone',
               key: this.incrementStart++
             }
           ]
@@ -86,7 +86,7 @@ class App extends React.Component {
             .map((task) => (
               <Task
                 name={task.name}
-                statusClass={task.statusClass}
+                statusClass={task.status === "undone" ? "classDone" : "classUndone"}
                 key={task.key}
                 handler={this.taskClicked}
               />

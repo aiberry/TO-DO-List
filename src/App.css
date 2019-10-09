@@ -14,12 +14,12 @@ ul {
   width: 100%;
 }
 
-.notDone {
+.classDone {
   color: black;
   text-decoration: none;
 }
 
-.alreadyDone {
+.classUndone {
   color: gray;
   text-decoration: line-through;
 }
