@@ -2,8 +2,7 @@
     "root": true,
     "extends": [
       "eslint:recommended",
-      "plugin:react/recommended",
-    //  "prettier:./.prettierrc"
+      "plugin:react/recommended"
     ],
     
     "plugins": ["import", "react"],
@@ -51,8 +50,8 @@
         "files": "tests/**",
         "rules": {
           "no-template-curly-in-string": 1,
-          "react/jsx-uses-react": "error",
-          "react/jsx-uses-vars": "error",
+          "react/jsx-uses-react": "warn",
+          "react/jsx-uses-vars": "warn",
         },
       },
     ],

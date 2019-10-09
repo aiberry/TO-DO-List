@@ -1,35 +1,34 @@
-import React from "react";
-import "./App.css";
-import Task from "./Task.js";
+import React from 'react';
+import './App.css';
+import Task from './Task.js';
 
 class App extends React.Component {
   state = {
     tasks: [
       {
-        name: "Get tickets",
-        isDone: "alreadyDone",
+        name: '24',
+        statusClass: 24,
         key: 88
-
       },
       {
-        name: "Get bread",
-        isDone: "notDone",
+        name: 'Get bread',
+        statusClass: 'notDone',
         key: 99
       }
     ],
-    searchText: ""
+    searchText: ''
   };
-  
-  taskClicked = event => {
+
+  taskClicked = (event) => {
     this.setState({
-      tasks: this.state.tasks.map(element => {
+      tasks: this.state.tasks.map((element) => {
         if (element.name === event.target.innerHTML) {
           return {
             ...element,
-            isDone:
-              element.isDone === "notDone"
-                ? (element.isDone = "alreadyDone")
-                : (element.isDone = "notDone")
+            statusClass:
+              element.statusClass === 'notDone'
+                ? (element.statusClass = 'alreadyDone')
+                : (element.statusClass = 'notDone')
           };
         } else {
           return element;
@@ -39,30 +38,29 @@ class App extends React.Component {
   };
 
   incrementStart = 100;
-  taskValue = "";
+  taskValue = '';
 
-  taskAdding = event => {
+  taskAdding = (event) => {
     if (event.keyCode === 13) {
-      // Button Enter
-      let target = event.target || event.srcElement;
+      // 13 - Button Enter
       this.taskValue = event.target.value;
-      this.setState(prevState => {
+      this.setState((state) => {
         return {
           tasks: [
-            ...prevState.tasks,
+            ...state.tasks,
             {
               name: this.taskValue,
-              isDone: "notDone",
+              statusClass: 'notDone',
               key: this.incrementStart++
             }
           ]
         };
       });
-      target.value = "";
+      event.target.value = '';
     }
   };
 
-  searchHandler = event => {
+  searchHandler = (event) => {
     this.setState({
       searchText: event.target.value
     });
@@ -80,15 +78,15 @@ class App extends React.Component {
         <ul>
           {this.state.tasks
             .filter(
-              task =>
+              (task) =>
                 task.name
                   .toLowerCase()
                   .indexOf(this.state.searchText.toLowerCase()) >= 0
             )
-            .map(task => (
+            .map((task) => (
               <Task
                 name={task.name}
-                isDone={task.isDone}
+                statusClass={task.statusClass}
                 key={task.key}
                 handler={this.taskClicked}
               />

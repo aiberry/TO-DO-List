@@ -1,11 +1,18 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-let Task = function(props) {
+function Task(props) {
   return (
-    <li onClick={props.handler} className={"singeTask " + props.isDone}>
+    <li onClick={props.handler} className={'singeTask ' + props.statusClass}>
       {props.name}
     </li>
   );
+}
+
+Task.propTypes = {
+  handler: PropTypes.func,
+  statusClass: PropTypes.string,
+  name: PropTypes.string
 };
 
 export default Task;
