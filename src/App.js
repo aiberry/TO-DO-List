@@ -7,12 +7,12 @@ class App extends React.Component {
     tasks: [
       {
         name: '24',
-        status: "done",
+        status: 'undone',
         key: 88
       },
       {
         name: 'Get bread',
-        status: 'undone',
+        status: 'done',
         key: 99
       }
     ],
@@ -86,7 +86,7 @@ class App extends React.Component {
             .map((task) => (
               <Task
                 name={task.name}
-                statusClass={task.status === "undone" ? "classDone" : "classUndone"}
+                status={task.status}
                 key={task.key}
                 handler={this.taskClicked}
               />

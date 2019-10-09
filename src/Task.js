@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 
 function Task(props) {
   return (
-    <li onClick={props.handler} className={'singeTask ' + props.statusClass}>
+    <li 
+    onClick={props.handler} 
+    className={'singeTask ' + (props.status === 'done' ? 'classDone' : 'classUndone')}
+    >
       {props.name}
     </li>
   );
@@ -11,7 +14,7 @@ function Task(props) {
 
 Task.propTypes = {
   handler: PropTypes.func,
-  statusClass: PropTypes.string,
+  status: PropTypes.string,
   name: PropTypes.string
 };
 
