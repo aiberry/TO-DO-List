@@ -1,0 +1,14 @@
+.singeTask {
+    border: solid green;
+}
+
+.viewUndone {
+    color: black;
+    text-decoration: none;
+}
+  
+.viewDone {
+    color: gray;
+    text-decoration: line-through;
+}
+  
