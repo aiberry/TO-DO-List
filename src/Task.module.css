@@ -3,11 +3,13 @@
 }
 
 .viewUndone {
+    composes: singeTask;
     color: black;
     text-decoration: none;
 }
   
 .viewDone {
+    composes: singeTask;
     color: gray;
     text-decoration: line-through;
 }

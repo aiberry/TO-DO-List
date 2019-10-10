@@ -10,13 +10,15 @@ ul {
   margin: 0;
 }
 
-.taskAdd {
+.taskAddInput {
   width: 100%;
+  height: 25px;
 }
 
 
-.typesearch {
+.typesearchInput {
   width: 100%;
+  height: 25px;
 }
 
 .App {

@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import styles from './App.module.css';
 import Task from './Task.js';
 class App extends React.Component {
   state = {
@@ -67,11 +67,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="wrap">
+      <div className={styles.wrap}>
         <h1>TO-DO List</h1>
         <input
           placeholder="Search tasks...."
-          className="typesearch"
+          className={styles.typesearchInput}
           onKeyUp={this.searchHandler}
         />
         <ul>
@@ -93,7 +93,7 @@ class App extends React.Component {
         </ul>
         <input
           placeholder="Add tasks....."
-          className="taskAdd"
+          className={styles.taskAddInput}
           onKeyUp={this.taskAdding}
         />
       </div>
