@@ -1,124 +1,104 @@
 import React from 'react';
 import './App.css';
-import Task from'./Task.js'
-
+import Task from './Task.js';
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     tasks: [
       {
-        name: "Get tickets",
-        isDone: "alreadyDone"
-      },{
-        name: "Get bread",
-        isDone: "notDone"
-    
+        name: '24',
+        status: 'undone',
+        key: 88
+      },
+      {
+        name: 'Get bread',
+        status: 'done',
+        key: 99
       }
     ],
-    searchText: "",
-  }
+    searchText: ''
+  };
 
-  taskClicked = event => {
-    let target = event.target || event.srcElement;
-    this.setState(
-      {tasks: this.state.tasks.map(
-        (element) => {
-          if (element.name === target.innerHTML) {
-            element.isDone === "notDone" ? element.isDone = "alreadyDone" : element.isDone = "notDone";
-          }
-
-          console.log(element);
+  taskClicked = (event) => {
+    this.setState({
+      tasks: this.state.tasks.map((element) => {
+        if (element.name === event.target.innerHTML) {
+          return {
+            ...element,
+            status:
+              element.status === 'undone'
+                ? (element.status = 'done')
+                : (element.status = 'undone')
+          };
+        } else {
           return element;
         }
-      )}
-    );
-  }
+      })
+    });
+  };
 
-  taskAdding = event => {
-    if (event.keyCode === 13) { // Button Enter
-      let target = event.target || event.srcElement;
-      this.setState(
-        {tasks: this.state.tasks.concat(
-          [
+  incrementStart = 100;
+  taskValue = '';
+
+  taskAdding = (event) => {
+    if (event.keyCode === 13) {
+      // 13 - Button Enter
+      this.taskValue = event.target.value;
+      this.setState((state) => {
+        return {
+          tasks: [
+            ...state.tasks,
             {
-              name: event.target.value,
-              isDone: "notDone"
+              name: this.taskValue,
+              status: 'undone',
+              key: this.incrementStart++
             }
           ]
-        )}
-      )
-      target.value = '';
+        };
+      });
+      event.target.value = '';
     }
-  }
+  };
 
-  searchHandler = event => {
-    let target = event.target || event.srcElement;
+  searchHandler = (event) => {
     this.setState({
-      searchText: target.value
+      searchText: event.target.value
     });
   };
 
   render() {
     return (
-      <div className="wrap" >
+      <div className="wrap">
         <h1>TO-DO List</h1>
-        <input 
+        <input
           placeholder="Search tasks...."
-          className="typesearch" 
+          className="typesearch"
           onKeyUp={this.searchHandler}
-        ></input>
+        />
         <ul>
-          {this.state.tasks.filter(
-            task => task.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) >= 0
-          ).map(
-            (task, index) => (
-              <Task 
-                name={task.name} 
-                isDone={task.isDone} 
-                key={index} 
+          {this.state.tasks
+            .filter(
+              (task) =>
+                task.name
+                  .toLowerCase()
+                  .indexOf(this.state.searchText.toLowerCase()) >= 0
+            )
+            .map((task) => (
+              <Task
+                name={task.name}
+                status={task.status}
+                key={task.key}
                 handler={this.taskClicked}
               />
-          ))}
+            ))}
         </ul>
-        <input 
-          placeholder="Add tasks...."
-          className="taskAdd" 
-          onKeyUp = {this.taskAdding}
-        ></input>
-          
+        <input
+          placeholder="Add tasks....."
+          className="taskAdd"
+          onKeyUp={this.taskAdding}
+        />
       </div>
-    )
+    );
   }
 }
-
-// function App() {
-//   var 
-//   var addingTask = function () {
-//     this.state.tasks.push({
-//       name: 
-//     })
-//   }
-//   return (
-//     <div className="wrap">
-//       <h1>
-//         TO-DO List
-//       </h1>
-//       <ul>
-//         {state.tasks.map((task, index) => (
-//           <li className="singeTask" key={index} >
-            
-//             {task.name}
-//           </li>
-//         ))}
-//       </ul>
-     
-
-//       <input className="taskAdd" ></input><button onClick={addingTask}>Add task</button>
-//     </div>
-//   );
-// }
 
 export default App;

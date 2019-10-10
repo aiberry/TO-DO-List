@@ -1,15 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-class Task extends React.Component {
-    constructor(props) {
-      super(props);
-    }
-  
-    render () {
-      return (
-        <li onClick={this.props.handler} className={"singeTask " + this.props.isDone}>{this.props.name}</li>
-      )
-    }
-  }
+function Task(props) {
+  return (
+    <li
+      onClick={props.handler}
+      className={
+        'singeTask ' + (props.status === 'done' ? 'classDone' : 'classUndone')
+      }
+    >
+      {props.name}
+    </li>
+  );
+}
 
-  export default Task;
+Task.propTypes = {
+  handler: PropTypes.func,
+  status: PropTypes.string,
+  name: PropTypes.string
+};
+
+export default Task;

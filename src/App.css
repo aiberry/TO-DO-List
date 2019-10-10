@@ -1,7 +1,6 @@
 .wrap {
   width: 80%;
   margin: auto;
- 
 }
 
 ul {
@@ -9,35 +8,29 @@ ul {
   list-style: none;
   padding-left: 0;
   margin: 0;
-
- 
 }
 
 .taskAdd {
   width: 100%;
 }
 
-.notDone {
+.classUndone {
   color: black;
   text-decoration: none;
 }
 
-.alreadyDone {
+.classDone {
   color: gray;
   text-decoration: line-through;
 }
 
 .singeTask {
   border: solid green;
-  
 }
 
 .typesearch {
   width: 100%;
-
 }
-
-
 
 .App {
   text-align: center;
