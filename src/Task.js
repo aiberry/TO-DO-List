@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Task(props) {
+export default function Task({handler, status, name}) {
   return (
     <li
-      onClick={props.handler}
-      className={
-        'singeTask ' + (props.status === 'done' ? 'classDone' : 'classUndone')
-      }
+      onClick={handler}
+      className={'singeTask ' + (status === 'done' ? 'classDone' : 'classUndone')}
     >
-      {props.name}
+      {name}
     </li>
   );
 }
@@ -19,5 +17,3 @@ Task.propTypes = {
   status: PropTypes.string,
   name: PropTypes.string
 };
-
-export default Task;
