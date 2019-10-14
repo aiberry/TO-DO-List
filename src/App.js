@@ -1,71 +1,27 @@
 import React from 'react';
 import styles from './App.module.css';
 import Task from './Task.js';
+import { connect } from 'react-redux'
+
 class App extends React.Component {
-  state = {
-    tasks: [
-      {
-        name: '24',
-        status: 'undone',
-        key: 88
-      },
-      {
-        name: 'Get bread',
-        status: 'done',
-        key: 99
-      }
-    ],
-    searchText: ''
-  };
-
   taskClicked = (event) => {
-    this.setState({
-      tasks: this.state.tasks.map((element) => {
-        if (element.name === event.target.innerHTML) {
-          return {
-            ...element,
-            status:
-              element.status === 'undone'
-                ? (element.status = 'done')
-                : (element.status = 'undone')
-          };
-        } else {
-          return element;
-        }
-      })
-    });
+    this.props.onTaskClicked(event.target.innerHTML)
   };
-
-  incrementStart = 100;
-  taskValue = '';
-
   taskAdding = (event) => {
     if (event.keyCode === 13) {
       // 13 - Button Enter
-      this.taskValue = event.target.value;
-      this.setState((state) => {
-        return {
-          tasks: [
-            ...state.tasks,
-            {
-              name: this.taskValue,
-              status: 'undone',
-              key: this.incrementStart++
-            }
-          ]
-        };
-      });
+      this.props.onTaskAdding(event.target.value, this.incrementStart++);
       event.target.value = '';
     }
   };
-
   searchHandler = (event) => {
-    this.setState({
-      searchText: event.target.value
-    });
+    this.props.onSearchHandler (event.target.value)
   };
 
+  incrementStart = 100;
+
   render() {
+    let stateRedux = this.props.stateRedux;
     return (
       <div className={styles.wrap}>
         <h1>TO-DO List</h1>
@@ -75,12 +31,12 @@ class App extends React.Component {
           onKeyUp={this.searchHandler}
         />
         <ul>
-          {this.state.tasks
+          {stateRedux.tasks
             .filter(
               (task) =>
                 task.name
                   .toLowerCase()
-                  .indexOf(this.state.searchText.toLowerCase()) >= 0
+                  .indexOf(stateRedux.searchText.toLowerCase()) >= 0
             )
             .map((task) => (
               <Task
@@ -101,4 +57,40 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect(
+  state => ({
+    stateRedux: state
+  }),
+  dispatch => (
+    {
+      onTaskAdding: (taskName, key) => {
+        dispatch(
+          { 
+            type: 'ADD_TASK', 
+            taskData:  {
+              name: taskName,
+              status: 'undone',
+              key: key
+            }
+          }
+        )
+      },
+      onTaskClicked: (clickedTaskName) => {
+        dispatch(
+          {
+            type: 'TASK_CLICKED', 
+            taskName: clickedTaskName
+          }
+        )
+      },
+      onSearchHandler: (queryText) => {
+        dispatch(
+          {
+            type: 'SEARCH',
+            query: queryText
+          }
+        )
+      }
+    }
+  )
+)(App);
