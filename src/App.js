@@ -7,10 +7,10 @@ class App extends React.Component {
   taskClicked = (event) => {
     this.props.onTaskClicked(event.target.innerHTML)
   };
-  taskAdding = (event) => {
+  taskAdded = (event) => {
     if (event.keyCode === 13) {
       // 13 - Button Enter
-      this.props.onTaskAdding(event.target.value, this.incrementStart++);
+      this.props.onTaskAdded(event.target.value, this.incrementStart++);
       event.target.value = '';
     }
   };
@@ -21,6 +21,7 @@ class App extends React.Component {
   incrementStart = 100;
 
   render() {
+    console.log('this.props', this.props)
     let stateRedux = this.props.stateRedux;
     return (
       <div className={styles.wrap}>
@@ -36,7 +37,7 @@ class App extends React.Component {
               (task) =>
                 task.name
                   .toLowerCase()
-                  .indexOf(stateRedux.searchText.toLowerCase()) >= 0
+                 .indexOf(stateRedux.search.toLowerCase()) >= 0
             )
             .map((task) => (
               <Task
@@ -50,7 +51,7 @@ class App extends React.Component {
         <input
           placeholder="Add tasks....."
           className={styles.taskAddInput}
-          onKeyUp={this.taskAdding}
+          onKeyUp={this.taskAdded}
         />
       </div>
     );
@@ -63,11 +64,11 @@ export default connect(
   }),
   dispatch => (
     {
-      onTaskAdding: (taskName, key) => {
+      onTaskAdded: (taskName, key) => {
         dispatch(
           { 
             type: 'ADD_TASK', 
-            taskData:  {
+            payload:  {
               name: taskName,
               status: 'undone',
               key: key
@@ -79,7 +80,7 @@ export default connect(
         dispatch(
           {
             type: 'TASK_CLICKED', 
-            taskName: clickedTaskName
+            payload: clickedTaskName
           }
         )
       },
