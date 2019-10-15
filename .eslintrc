@@ -22,7 +22,7 @@
         "no-console": "warn",
         "no-eval": "error",
         "comma-dangle": [2, "never"],
-        "object-curly-spacing": [2, "never"],
+        "object-curly-spacing": [1, "always"],
         "array-bracket-spacing": [2, "never"],
         "max-len": [2, 120, {
           "ignoreStrings": true,
@@ -55,4 +55,14 @@
         },
       },
     ],
+    "settings": {
+      "react": {
+        "createClass": "createReactClass", // Regex for Component Factory to use,
+                                           // default to "createReactClass"
+        "version": "detect"  // React version. "detect" automatically picks the version you have installed.
+                             // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
+                             // default to latest and warns if missing
+                             // It will default to "detect" in the future
+      }
+    }
 }
