@@ -1,21 +1,10 @@
-const initState = [
-    {
-        name: 'some2',
-        status: 'undone',
-        key: 86
-    },
-    {
-        name: 'some',
-        status: 'undone',
-        key: 87
-    }
-];
+import * as CONST from '../constants';
 
-export default function tasks(state = initState, action) {
+export default function tasks(state = CONST.initStoreState, action) {
     switch (action.type) {
-        case 'ADD_TASK':
+        case CONST.ADD_TASK:
             return [...state, action.payload];
-        case 'TASK_CLICKED': {
+        case CONST.TASK_CLICKED: {
             let newTasks = state.map((element) => {
                 if (element.name === action.payload) {
                     return {

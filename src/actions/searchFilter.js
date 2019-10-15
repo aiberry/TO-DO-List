@@ -1,6 +1,5 @@
-export default function searchFilter(queryText) {
-    return {
-        type: 'SEARCH',
-        query: queryText
-    };
+import * as CONST from '../constants';
+
+export default function searchFilter(query) {
+    return { type: CONST.SEARCH, query };
 }

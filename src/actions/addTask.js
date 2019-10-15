@@ -1,6 +1,8 @@
+import * as CONST from '../constants';
+
 export default function addTask(taskName) {
     return {
-        type: 'ADD_TASK',
+        type: CONST.ADD_TASK,
         payload: {
             name: taskName,
             status: 'undone',

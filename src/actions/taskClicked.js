@@ -1,6 +1,8 @@
-export default function taskClicked(clickedTaskName) {
+import * as CONST from '../constants';
+
+export default function taskClicked(task) {
     return {
-        type: 'TASK_CLICKED',
-        payload: clickedTaskName
+        type: CONST.TASK_CLICKED,
+        payload: task.name
     };
 }

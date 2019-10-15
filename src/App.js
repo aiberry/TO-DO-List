@@ -7,8 +7,8 @@ import taskClicked from './actions/taskClicked.js';
 import searchFilter from './actions/searchFilter.js';
 
 class App extends React.Component {
-    taskClicked = (event) => {
-        this.props.onTaskClicked(event.target.innerHTML);
+    taskClicked = (task) => {
+        this.props.onTaskClicked(task);
     };
     taskAdded = (event) => {
         if (event.keyCode === 13) {
@@ -20,7 +20,6 @@ class App extends React.Component {
     searchHandler = (event) => {
         this.props.onSearchHandler(event.target.value);
     };
-
     render() {
         let filteredTasks = this.props.filteredTasks;
         return (
@@ -37,7 +36,7 @@ class App extends React.Component {
                             name={task.name}
                             status={task.status}
                             key={task.key}
-                            handler={this.taskClicked}
+                            handler={() => this.taskClicked(task)}
                         />
                     ))}
                 </ul>
@@ -52,21 +51,19 @@ class App extends React.Component {
 }
 
 export default connect(
-    (state) => {
-        return {
-            filteredTasks: state.tasks.filter((track) =>
-                track.name.includes(state.search)
-            )
-        };
-    },
+    (state) => ({
+        filteredTasks: state.tasks.filter((track) =>
+            track.name.includes(state.search)
+        )
+    }),
     (dispatch) => ({
-        onTaskAdded: (taskName) => {
+        onTaskAdded(taskName) {
             dispatch(addTask(taskName));
         },
-        onTaskClicked: (clickedTaskName) => {
-            dispatch(taskClicked(clickedTaskName));
+        onTaskClicked(task) {
+            dispatch(taskClicked(task));
         },
-        onSearchHandler: (queryText) => {
+        onSearchHandler(queryText) {
             dispatch(searchFilter(queryText));
         }
     })
