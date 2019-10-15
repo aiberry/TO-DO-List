@@ -1,16 +1,15 @@
 .singeTask {
-    border: solid green;
+  border: solid green;
 }
 
 .viewUndone {
-    composes: singeTask;
-    color: black;
-    text-decoration: none;
+  composes: singeTask;
+  color: black;
+  text-decoration: none;
 }
-  
+
 .viewDone {
-    composes: singeTask;
-    color: gray;
-    text-decoration: line-through;
+  composes: singeTask;
+  color: gray;
+  text-decoration: line-through;
 }
-  

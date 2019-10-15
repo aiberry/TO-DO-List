@@ -1,11 +1,14 @@
 import React from 'react';
 import styles from './App.module.css';
 import Task from './Task.js';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import  addTask from './actions/index.js'
+
+// console.log(addTask(''));
 
 class App extends React.Component {
   taskClicked = (event) => {
-    this.props.onTaskClicked(event.target.innerHTML)
+    this.props.onTaskClicked(event.target.innerHTML);
   };
   taskAdded = (event) => {
     if (event.keyCode === 13) {
@@ -15,13 +18,13 @@ class App extends React.Component {
     }
   };
   searchHandler = (event) => {
-    this.props.onSearchHandler (event.target.value)
+    this.props.onSearchHandler(event.target.value);
   };
 
   incrementStart = 100;
 
   render() {
-    console.log('this.props', this.props)
+    console.log('this.props', this.props);
     let stateRedux = this.props.stateRedux;
     return (
       <div className={styles.wrap}>
@@ -32,21 +35,14 @@ class App extends React.Component {
           onKeyUp={this.searchHandler}
         />
         <ul>
-          {stateRedux.tasks
-            .filter(
-              (task) =>
-                task.name
-                  .toLowerCase()
-                 .indexOf(stateRedux.search.toLowerCase()) >= 0
-            )
-            .map((task) => (
-              <Task
-                name={task.name}
-                status={task.status}
-                key={task.key}
-                handler={this.taskClicked}
-              />
-            ))}
+          {stateRedux.tasks.map((task) => (
+            <Task
+              name={task.name}
+              status={task.status}
+              key={task.key}
+              handler={this.taskClicked}
+            />
+          ))}
         </ul>
         <input
           placeholder="Add tasks....."
@@ -59,39 +55,40 @@ class App extends React.Component {
 }
 
 export default connect(
-  state => ({
-    stateRedux: state
-  }),
-  dispatch => (
-    {
-      onTaskAdded: (taskName, key) => {
-        dispatch(
-          { 
-            type: 'ADD_TASK', 
-            payload:  {
-              name: taskName,
-              status: 'undone',
-              key: key
-            }
-          }
-        )
-      },
-      onTaskClicked: (clickedTaskName) => {
-        dispatch(
-          {
-            type: 'TASK_CLICKED', 
-            payload: clickedTaskName
-          }
-        )
-      },
-      onSearchHandler: (queryText) => {
-        dispatch(
-          {
-            type: 'SEARCH',
-            query: queryText
-          }
-        )
+  (state) => {
+    console.log(
+      'state',
+      state.tasks.filter((track) => track.name.includes(state.search))
+    );
+    return {
+      stateRedux: {
+        ...state,
+        tasks: state.tasks.filter((track) => track.name.includes(state.search))
       }
+    };
+  },
+  (dispatch) => ({
+    onTaskAdded: (taskName, key) => {
+      dispatch({
+        type: 'ADD_TASK',
+        payload: {
+          name: taskName,
+          status: 'undone',
+          key: key
+        }
+      });
+    },
+    onTaskClicked: (clickedTaskName) => {
+      dispatch({
+        type: 'TASK_CLICKED',
+        payload: clickedTaskName
+      });
+    },
+    onSearchHandler: (queryText) => {
+      dispatch({
+        type: 'SEARCH',
+        query: queryText
+      });
     }
-  )
+  })
 )(App);
