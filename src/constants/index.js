@@ -1,7 +1,3 @@
-export const SEARCH = 'SEARCH';
-export const ADD_TASK = 'ADD_TASK';
-export const TASK_CLICKED = 'TASK_CLICKED';
-
 export const initStoreState = [
     {
         name: 'some2',

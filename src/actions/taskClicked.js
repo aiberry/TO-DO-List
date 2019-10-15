@@ -1,8 +1,8 @@
-import * as CONST from '../constants';
+export const TASK_CLICKED = 'ADD_TASK';
 
 export default function taskClicked(task) {
     return {
-        type: CONST.TASK_CLICKED,
+        type: TASK_CLICKED,
         payload: task.name
     };
 }

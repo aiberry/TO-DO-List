@@ -1,5 +1,5 @@
-import * as CONST from '../constants';
+export const SEARCH = 'ADD_TASK';
 
 export default function searchFilter(query) {
-    return { type: CONST.SEARCH, query };
+    return { type: SEARCH, query };
 }
