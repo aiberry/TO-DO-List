@@ -1,104 +1,70 @@
 import React from 'react';
 import styles from './App.module.css';
 import Task from './Task.js';
+import { connect } from 'react-redux';
+import addTask from './actions/addTask.js';
+import taskClicked from './actions/taskClicked.js';
+import searchFilter from './actions/searchFilter.js';
+
 class App extends React.Component {
-  state = {
-    tasks: [
-      {
-        name: '24',
-        status: 'undone',
-        key: 88
-      },
-      {
-        name: 'Get bread',
-        status: 'done',
-        key: 99
-      }
-    ],
-    searchText: ''
-  };
-
-  taskClicked = (event) => {
-    this.setState({
-      tasks: this.state.tasks.map((element) => {
-        if (element.name === event.target.innerHTML) {
-          return {
-            ...element,
-            status:
-              element.status === 'undone'
-                ? (element.status = 'done')
-                : (element.status = 'undone')
-          };
-        } else {
-          return element;
+    taskClicked = (task) => {
+        this.props.onTaskClicked(task);
+    };
+    taskAdded = (event) => {
+        if (event.keyCode === 13) {
+            // 13 - Button Enter
+            this.props.onTaskAdded(event.target.value, this.incrementStart++);
+            event.target.value = '';
         }
-      })
-    });
-  };
-
-  incrementStart = 100;
-  taskValue = '';
-
-  taskAdding = (event) => {
-    if (event.keyCode === 13) {
-      // 13 - Button Enter
-      this.taskValue = event.target.value;
-      this.setState((state) => {
-        return {
-          tasks: [
-            ...state.tasks,
-            {
-              name: this.taskValue,
-              status: 'undone',
-              key: this.incrementStart++
-            }
-          ]
-        };
-      });
-      event.target.value = '';
+    };
+    searchHandler = (event) => {
+        this.props.onSearchHandler(event.target.value);
+    };
+    render() {
+        let filteredTasks = this.props.filteredTasks;
+        return (
+            <div className={styles.wrap}>
+                <h1>TO-DO List</h1>
+                <input
+                    placeholder="Search tasks...."
+                    className={styles.typesearchInput}
+                    onKeyUp={this.searchHandler}
+                />
+                <ul>
+                    {filteredTasks.map((task) => (
+                        <Task
+                            name={task.name}
+                            status={task.status}
+                            key={task.key}
+                            handler={() => this.taskClicked(task)}
+                        />
+                    ))}
+                </ul>
+                <input
+                    placeholder="Add tasks....."
+                    className={styles.taskAddInput}
+                    onKeyUp={this.taskAdded}
+                />
+            </div>
+        );
     }
-  };
-
-  searchHandler = (event) => {
-    this.setState({
-      searchText: event.target.value
-    });
-  };
-
-  render() {
-    return (
-      <div className={styles.wrap}>
-        <h1>TO-DO List</h1>
-        <input
-          placeholder="Search tasks...."
-          className={styles.typesearchInput}
-          onKeyUp={this.searchHandler}
-        />
-        <ul>
-          {this.state.tasks
-            .filter(
-              (task) =>
-                task.name
-                  .toLowerCase()
-                  .indexOf(this.state.searchText.toLowerCase()) >= 0
-            )
-            .map((task) => (
-              <Task
-                name={task.name}
-                status={task.status}
-                key={task.key}
-                handler={this.taskClicked}
-              />
-            ))}
-        </ul>
-        <input
-          placeholder="Add tasks....."
-          className={styles.taskAddInput}
-          onKeyUp={this.taskAdding}
-        />
-      </div>
-    );
-  }
 }
 
-export default App;
+export default connect(
+    (state) => ({
+        filteredTasks: state.tasks.filter((track) =>
+            track.name.includes(state.search)
+        )
+    }),
+    (dispatch) => ({
+        onTaskAdded(taskName) {
+            dispatch(addTask(taskName));
+        },
+        onTaskClicked(task) {
+            dispatch(taskClicked(task));
+        },
+        onSearchHandler(queryText) {
+            dispatch(searchFilter(queryText));
+        }
+    })
+)(App);
