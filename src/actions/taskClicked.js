@@ -1,8 +1,8 @@
-export const TASK_CLICKED = 'ADD_TASK';
+export const TASK_CLICKED = 'TASK_CLICKED';
 
 export default function taskClicked(task) {
     return {
-        type: TASK_CLICKED,
-        payload: task.name
+        type: 'TASK_CLICKED',
+        payload: task
     };
 }

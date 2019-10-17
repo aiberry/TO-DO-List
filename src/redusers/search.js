@@ -1,4 +1,5 @@
-import SEARCH from '../actions/searchFilter.js';
+import { SEARCH } from '../actions/searchFilter.js';
+
 
 export default function search(state = '', action) {
     if (action.type === SEARCH) {
