@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './App.module.css';
 import Task from './Task.js';
 import { connect } from 'react-redux';
@@ -6,29 +6,30 @@ import addTask from './actions/addTask.js';
 import taskClicked from './actions/taskClicked.js';
 import searchFilter from './actions/searchFilter.js';
 
-class App extends React.Component {
-    taskClicked = (task) => {
-        this.props.onTaskClicked(task);
+function App(props) {
+    
+    const taskClicked = (task) => {
+        props.onTaskClicked(task);
     };
-    taskAdded = (event) => {
+    const taskAdded = (event) => {
         if (event.keyCode === 13) {
             // 13 - Button Enter
-            this.props.onTaskAdded(event.target.value, this.incrementStart++);
+            props.onTaskAdded(event.target.value, Date.now().toString());
             event.target.value = '';
         }
     };
-    searchHandler = (event) => {
-        this.props.onSearchHandler(event.target.value);
+    const searchHandler = (event) => {
+        props.onSearchHandler(event.target.value);
     };
-    render() {
-        let filteredTasks = this.props.filteredTasks;
+    
+        let filteredTasks = props.filteredTasks;
         return (
             <div className={styles.wrap}>
                 <h1>TO-DO List</h1>
                 <input
                     placeholder="Search tasks...."
                     className={styles.typesearchInput}
-                    onKeyUp={this.searchHandler}
+                    onKeyUp={searchHandler}
                 />
                 <ul>
                     {filteredTasks.map((task) => (
@@ -36,18 +37,18 @@ class App extends React.Component {
                             name={task.name}
                             status={task.status}
                             key={task.key}
-                            handler={() => this.taskClicked(task)}
+                            handler={() => taskClicked(task)}
                         />
                     ))}
                 </ul>
                 <input
                     placeholder="Add tasks....."
                     className={styles.taskAddInput}
-                    onKeyUp={this.taskAdded}
+                    onKeyUp={taskAdded}
                 />
             </div>
         );
-    }
+    
 }
 
 export default connect(
