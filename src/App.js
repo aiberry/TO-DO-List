@@ -7,10 +7,13 @@ import taskClicked from './actions/taskClicked.js';
 import searchFilter from './actions/searchFilter.js';
 
 function App(props) {
-    
+    const [searchQuery, setQuery] = useState('');
+
+
     const taskClicked = (task) => {
         props.onTaskClicked(task);
     };
+    
     const taskAdded = (event) => {
         if (event.keyCode === 13) {
             // 13 - Button Enter
@@ -18,21 +21,20 @@ function App(props) {
             event.target.value = '';
         }
     };
-    const searchHandler = (event) => {
-        props.onSearchHandler(event.target.value);
-    };
-    
-        let filteredTasks = props.filteredTasks;
+  
+    props.onSearchHandler(searchQuery);
+   
         return (
             <div className={styles.wrap}>
                 <h1>TO-DO List</h1>
                 <input
                     placeholder="Search tasks...."
                     className={styles.typesearchInput}
-                    onKeyUp={searchHandler}
+                    // onKeyUp={searchHandler}
+                    onKeyUp={e => setQuery(e.target.value)}
                 />
                 <ul>
-                    {filteredTasks.map((task) => (
+                    {props.filteredTasks.map((task) => (
                         <Task
                             name={task.name}
                             status={task.status}
