@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './App.module.css';
 import Task from './Task.js';
 import { connect } from 'react-redux';
@@ -9,10 +9,11 @@ import PropTypes from 'prop-types';
 
 function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
     const [searchQuery, setQuery] = useState('');
+    const [clickedTask, setClicked] = useState({});
 
-    const taskClicked = (task) => {
-        onTaskClicked(task);
-    };
+    useEffect(()=>{
+        onTaskClicked(clickedTask);
+    }, [clickedTask])
 
     const taskAdded = (event) => {
         if (event.keyCode === 13) {
@@ -21,8 +22,10 @@ function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
             event.target.value = '';
         }
     };
-
-    onSearchHandler(searchQuery);
+    useEffect(() => {
+        onSearchHandler(searchQuery);
+    }, [searchQuery])
+    
 
     return (
         <div className={styles.wrap}>
@@ -37,7 +40,7 @@ function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
                     <Task
                         task={task}
                         key={task.key}
-                        onToggle={taskClicked}
+                        onToggle={setClicked}
                     />
                 ))}
             </ul>
