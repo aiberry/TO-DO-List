@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from './App.module.css';
 import Task from './Task.js';
 import { connect } from 'react-redux';
@@ -8,20 +8,21 @@ import searchFilter from './actions/searchFilter.js';
 import PropTypes from 'prop-types';
 
 function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
-    const [searchQuery, setQuery] = useState('');
-    const [clickedTask, setClicked] = useState({});
-    const [newTask, setNewTask] = useState();
+    let taskClicked = (task) => {
+        onTaskClicked(task);
+    };
 
-    useEffect(()=>{
-        onTaskClicked(clickedTask);
-    }, [clickedTask])
-    useEffect(()=>{
-        if (newTask) onTaskAdded(newTask);
-    }, [newTask])
-    useEffect(() => {
-        onSearchHandler(searchQuery);
-    }, [searchQuery])
-    
+    let  taskAdded = (event) => {
+        if (event.keyCode === 13) {
+            // 13 - Button Enter
+            onTaskAdded(event.target.value);
+            event.target.value = '';
+        }
+    };
+
+    let searchHandler = (event) => {
+        onSearchHandler(event.target.value);
+    };
 
     return (
         <div className={styles.wrap}>
@@ -29,28 +30,21 @@ function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
             <input
                 placeholder="Search tasks...."
                 className={styles.typesearchInput}
-                onKeyUp={(e) => setQuery(e.target.value)}
+                onKeyUp={searchHandler}
             />
             <ul>
                 {filteredTasks.map((task) => (
                     <Task
                         task={task}
                         key={task.key}
-                        onToggle={setClicked}
+                        onToggle={taskClicked}
                     />
                 ))}
             </ul>
             <input
                 placeholder="Add tasks....."
                 className={styles.taskAddInput}
-                onKeyUp={
-                    (e) => {
-                        if (e.keyCode===13) {
-                            setNewTask(e.target.value);
-                            e.target.value = '';
-                        }
-                    }
-                }
+                onKeyUp={taskAdded}
             />
         </div>
     );
