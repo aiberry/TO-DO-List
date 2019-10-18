@@ -9,48 +9,46 @@ import searchFilter from './actions/searchFilter.js';
 function App(props) {
     const [searchQuery, setQuery] = useState('');
 
-
     const taskClicked = (task) => {
         props.onTaskClicked(task);
     };
-    
+
     const taskAdded = (event) => {
         if (event.keyCode === 13) {
             // 13 - Button Enter
-            props.onTaskAdded(event.target.value, Date.now().toString());
+            props.onTaskAdded(event.target.value);
             event.target.value = '';
         }
     };
-  
+
     props.onSearchHandler(searchQuery);
-   
-        return (
-            <div className={styles.wrap}>
-                <h1>TO-DO List</h1>
-                <input
-                    placeholder="Search tasks...."
-                    className={styles.typesearchInput}
-                    // onKeyUp={searchHandler}
-                    onKeyUp={e => setQuery(e.target.value)}
-                />
-                <ul>
-                    {props.filteredTasks.map((task) => (
-                        <Task
-                            name={task.name}
-                            status={task.status}
-                            key={task.key}
-                            handler={() => taskClicked(task)}
-                        />
-                    ))}
-                </ul>
-                <input
-                    placeholder="Add tasks....."
-                    className={styles.taskAddInput}
-                    onKeyUp={taskAdded}
-                />
-            </div>
-        );
-    
+
+    return (
+        <div className={styles.wrap}>
+            <h1>TO-DO List</h1>
+            <input
+                placeholder="Search tasks...."
+                className={styles.typesearchInput}
+                // onKeyUp={searchHandler}
+                onKeyUp={(e) => setQuery(e.target.value)}
+            />
+            <ul>
+                {props.filteredTasks.map((task) => (
+                    <Task
+                        name={task.name}
+                        status={task.status}
+                        key={task.key}
+                        handler={() => taskClicked(task)}
+                    />
+                ))}
+            </ul>
+            <input
+                placeholder="Add tasks....."
+                className={styles.taskAddInput}
+                onKeyUp={taskAdded}
+            />
+        </div>
+    );
 }
 
 export default connect(

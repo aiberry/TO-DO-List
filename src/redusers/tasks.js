@@ -7,7 +7,6 @@ export default function tasks(state = initStoreState, action) {
         case ADD_TASK:
             return [...state, action.payload];
         case TASK_CLICKED: {
-            console.log('action', action);
             let newTasks = state.map((element) => {
                 if (element.name === action.payload.name) {
                     return {
