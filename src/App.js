@@ -8,10 +8,6 @@ import searchFilter from './actions/searchFilter.js';
 import PropTypes from 'prop-types';
 
 function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
-    let taskClicked = (task) => {
-        onTaskClicked(task);
-    };
-
     let  taskAdded = (event) => {
         if (event.keyCode === 13) {
             // 13 - Button Enter
@@ -20,24 +16,20 @@ function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
         }
     };
 
-    let searchHandler = (event) => {
-        onSearchHandler(event.target.value);
-    };
-
     return (
         <div className={styles.wrap}>
             <h1>TO-DO List</h1>
             <input
                 placeholder="Search tasks...."
                 className={styles.typesearchInput}
-                onKeyUp={searchHandler}
+                onKeyUp={e => onSearchHandler(e.target.value)}
             />
             <ul>
                 {filteredTasks.map((task) => (
                     <Task
                         task={task}
                         key={task.key}
-                        onToggle={taskClicked}
+                        onToggle={onTaskClicked}
                     />
                 ))}
             </ul>
