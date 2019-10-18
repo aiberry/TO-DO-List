@@ -10,18 +10,22 @@ import PropTypes from 'prop-types';
 function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
     const [searchQuery, setQuery] = useState('');
     const [clickedTask, setClicked] = useState({});
+    const [newTask, setNewTask] = useState('');
 
     useEffect(()=>{
         onTaskClicked(clickedTask);
     }, [clickedTask])
+    useEffect(()=>{
+        return onTaskAdded(newTask);
+    }, [newTask])
 
-    const taskAdded = (event) => {
-        if (event.keyCode === 13) {
-            // 13 - Button Enter
-            onTaskAdded(event.target.value);
-            event.target.value = '';
-        }
-    };
+    // const taskAdded = (event) => {
+    //     if (event.keyCode === 13) {
+    //         // 13 - Button Enter
+    //         onTaskAdded(event.target.value);
+    //         event.target.value = '';
+    //     }
+    // };
     useEffect(() => {
         onSearchHandler(searchQuery);
     }, [searchQuery])
@@ -47,7 +51,14 @@ function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
             <input
                 placeholder="Add tasks....."
                 className={styles.taskAddInput}
-                onKeyUp={taskAdded}
+                onKeyUp={
+                    (e) => {
+                        if (e.keyCode===13) {
+                            setNewTask(e.target.value);
+                            e.target.value = '';
+                        }
+                    }
+                }
             />
         </div>
     );
