@@ -10,22 +10,14 @@ import PropTypes from 'prop-types';
 function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
     const [searchQuery, setQuery] = useState('');
     const [clickedTask, setClicked] = useState({});
-    const [newTask, setNewTask] = useState('');
+    const [newTask, setNewTask] = useState();
 
     useEffect(()=>{
         onTaskClicked(clickedTask);
     }, [clickedTask])
     useEffect(()=>{
-        return onTaskAdded(newTask);
+        if (newTask) onTaskAdded(newTask);
     }, [newTask])
-
-    // const taskAdded = (event) => {
-    //     if (event.keyCode === 13) {
-    //         // 13 - Button Enter
-    //         onTaskAdded(event.target.value);
-    //         event.target.value = '';
-    //     }
-    // };
     useEffect(() => {
         onSearchHandler(searchQuery);
     }, [searchQuery])
