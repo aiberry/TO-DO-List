@@ -5,23 +5,24 @@ import { connect } from 'react-redux';
 import addTask from './actions/addTask.js';
 import taskClicked from './actions/taskClicked.js';
 import searchFilter from './actions/searchFilter.js';
+import PropTypes from 'prop-types';
 
-function App(props) {
+function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
     const [searchQuery, setQuery] = useState('');
 
     const taskClicked = (task) => {
-        props.onTaskClicked(task);
+        onTaskClicked(task);
     };
 
     const taskAdded = (event) => {
         if (event.keyCode === 13) {
             // 13 - Button Enter
-            props.onTaskAdded(event.target.value);
+            onTaskAdded(event.target.value);
             event.target.value = '';
         }
     };
 
-    props.onSearchHandler(searchQuery);
+    onSearchHandler(searchQuery);
 
     return (
         <div className={styles.wrap}>
@@ -29,16 +30,14 @@ function App(props) {
             <input
                 placeholder="Search tasks...."
                 className={styles.typesearchInput}
-                // onKeyUp={searchHandler}
                 onKeyUp={(e) => setQuery(e.target.value)}
             />
             <ul>
-                {props.filteredTasks.map((task) => (
+                {filteredTasks.map((task) => (
                     <Task
-                        name={task.name}
-                        status={task.status}
+                        task={task}
                         key={task.key}
-                        handler={() => taskClicked(task)}
+                        onToggle={taskClicked}
                     />
                 ))}
             </ul>
@@ -69,3 +68,10 @@ export default connect(
         }
     })
 )(App);
+
+App.propTypes = {
+    onTaskClicked: PropTypes.func,
+    onTaskAdded: PropTypes.func, 
+    onSearchHandler: PropTypes.func, 
+    filteredTasks: PropTypes.array
+};

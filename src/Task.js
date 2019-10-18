@@ -2,19 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Task.module.css';
 
-export default function Task({ handler, status, name }) {
+export default function Task({ onToggle, task }) {
     return (
         <li
-            onClick={() => handler()}
-            className={status === 'done' ? styles.viewDone : styles.viewUndone}
+            onClick={() => onToggle(task)}
+            className={task.status === 'done' ? styles.viewDone : styles.viewUndone}
         >
-            {name}
+            {task.name}
         </li>
     );
 }
 
 Task.propTypes = {
-    handler: PropTypes.func,
-    status: PropTypes.string,
-    name: PropTypes.string
+    onToggle: PropTypes.func,
+    task: PropTypes.object
 };
