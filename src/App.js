@@ -5,49 +5,41 @@ import { connect } from 'react-redux';
 import addTask from './actions/addTask.js';
 import taskClicked from './actions/taskClicked.js';
 import searchFilter from './actions/searchFilter.js';
+import PropTypes from 'prop-types';
 
-class App extends React.Component {
-    taskClicked = (task) => {
-        this.props.onTaskClicked(task);
-    };
-    taskAdded = (event) => {
+function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
+    let  taskAdded = (event) => {
         if (event.keyCode === 13) {
             // 13 - Button Enter
-            this.props.onTaskAdded(event.target.value, this.incrementStart++);
+            onTaskAdded(event.target.value);
             event.target.value = '';
         }
     };
-    searchHandler = (event) => {
-        this.props.onSearchHandler(event.target.value);
-    };
-    render() {
-        let filteredTasks = this.props.filteredTasks;
-        return (
-            <div className={styles.wrap}>
-                <h1>TO-DO List</h1>
-                <input
-                    placeholder="Search tasks...."
-                    className={styles.typesearchInput}
-                    onKeyUp={this.searchHandler}
-                />
-                <ul>
-                    {filteredTasks.map((task) => (
-                        <Task
-                            name={task.name}
-                            status={task.status}
-                            key={task.key}
-                            handler={() => this.taskClicked(task)}
-                        />
-                    ))}
-                </ul>
-                <input
-                    placeholder="Add tasks....."
-                    className={styles.taskAddInput}
-                    onKeyUp={this.taskAdded}
-                />
-            </div>
-        );
-    }
+
+    return (
+        <div className={styles.wrap}>
+            <h1>TO-DO List</h1>
+            <input
+                placeholder="Search tasks...."
+                className={styles.typesearchInput}
+                onKeyUp={e => onSearchHandler(e.target.value)}
+            />
+            <ul>
+                {filteredTasks.map((task) => (
+                    <Task
+                        task={task}
+                        key={task.key}
+                        onToggle={onTaskClicked}
+                    />
+                ))}
+            </ul>
+            <input
+                placeholder="Add tasks....."
+                className={styles.taskAddInput}
+                onKeyUp={taskAdded}
+            />
+        </div>
+    );
 }
 
 export default connect(
@@ -68,3 +60,10 @@ export default connect(
         }
     })
 )(App);
+
+App.propTypes = {
+    onTaskClicked: PropTypes.func,
+    onTaskAdded: PropTypes.func, 
+    onSearchHandler: PropTypes.func, 
+    filteredTasks: PropTypes.array
+};
