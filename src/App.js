@@ -8,7 +8,7 @@ import searchFilter from './actions/searchFilter.js';
 import PropTypes from 'prop-types';
 
 function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
-    let  taskAdded = (event) => {
+    let taskAdded = (event) => {
         if (event.keyCode === 13) {
             // 13 - Button Enter
             onTaskAdded(event.target.value);
@@ -22,15 +22,11 @@ function App({ onTaskClicked, onTaskAdded, onSearchHandler, filteredTasks }) {
             <input
                 placeholder="Search tasks...."
                 className={styles.typesearchInput}
-                onKeyUp={e => onSearchHandler(e.target.value)}
+                onKeyUp={(e) => onSearchHandler(e.target.value)}
             />
             <ul>
                 {filteredTasks.map((task) => (
-                    <Task
-                        task={task}
-                        key={task.key}
-                        onToggle={onTaskClicked}
-                    />
+                    <Task task={task} key={task.key} onToggle={onTaskClicked} />
                 ))}
             </ul>
             <input
@@ -63,7 +59,7 @@ export default connect(
 
 App.propTypes = {
     onTaskClicked: PropTypes.func,
-    onTaskAdded: PropTypes.func, 
-    onSearchHandler: PropTypes.func, 
+    onTaskAdded: PropTypes.func,
+    onSearchHandler: PropTypes.func,
     filteredTasks: PropTypes.array
 };
