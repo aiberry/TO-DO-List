@@ -2,10 +2,10 @@ import { TASK_CLICKED } from '../actions/taskClicked.js';
 import { ADD_TASK } from '../actions/addTask.js';
 import { initStoreState } from '../constants';
 
-export default function tasks(state = initStoreState, action) {
+export default function tasks(state = initStoreState.tasks, action) {
     switch (action.type) {
         case ADD_TASK:
-            return [...state, action.payload];
+            if (action.payload.name) return [...state, action.payload];
         case TASK_CLICKED: {
             let newTasks = state.map((element) => {
                 if (element.name === action.payload.name) {
