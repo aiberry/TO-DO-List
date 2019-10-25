@@ -5,38 +5,35 @@ import taskClicked from '../actions/taskClicked.js';
 import tasks from './tasks.js';
 
 describe('todos reducer, tasks part', () => {
-    let store;
-    beforeEach(() => (store = initStoreState));
+    let state;
+    beforeEach(() => (state = initStoreState));
 
-    it('should handle TASK_CLICKED', () => {
-        expect(tasks(store.tasks, {})).toHaveProperty('0.status', 'undone');
+    it('marks task as done if it is undone', () => {
+        expect(tasks(state.tasks, {})).toHaveProperty('0.status', 'undone');
 
-        expect(tasks(store.tasks, taskClicked(store.tasks[0]))).toHaveProperty(
+        expect(tasks(state.tasks, taskClicked(state.tasks[0]))).toHaveProperty(
             '0.status',
             'done'
         );
     });
 
-    it('should handle ADD_TASK', () => {
-        let numberOfTasks = store.tasks.length;
-        expect(tasks(store.tasks, addTask('testText'))).toHaveLength(
+    it('marks task as undone if it is done', () => {
+        expect(tasks(state.tasks, {})).toHaveProperty('2.status', 'done');
+
+        expect(tasks(state.tasks, taskClicked(state.tasks[2]))).toHaveProperty(
+            '2.status',
+            'undone'
+        );
+    });
+
+    it('should add task to tasks list', () => {
+        let numberOfTasks = state.tasks.length;
+        expect(tasks(state.tasks, addTask('testText'))).toHaveLength(
             numberOfTasks + 1
         );
 
         let singleTaskAction = addTask('testText');
         let expectedTaskList = [...initStoreState.tasks, singleTaskAction.payload];
-        expect(tasks(store.tasks, singleTaskAction)).toEqual(expectedTaskList);
-    });
-
-    it('should handle undefined/initial values', () => {
-        // expect(reducer(undefined, {})).toEqual(store)
-        // expect(reducer(undefined, {})).toHaveProperty('search', '')
-        // expect(reducer(undefined, {})).toHaveProperty('tasks')
-
-        expect(tasks(undefined, {})).toEqual(store.tasks);
-
-        let singleTaskAction = addTask('testText');
-        let expectedTaskList = [...initStoreState.tasks, singleTaskAction.payload];
-        expect(tasks(undefined, singleTaskAction)).toEqual(expectedTaskList);
+        expect(tasks(state.tasks, singleTaskAction)).toEqual(expectedTaskList);
     });
 });
