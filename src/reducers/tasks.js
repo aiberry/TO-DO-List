@@ -5,7 +5,10 @@ import { initStoreState } from '../constants';
 export default function tasks(state = initStoreState.tasks, action) {
     switch (action.type) {
         case ADD_TASK:
-            return [...state, action.payload];
+            if (action.payload.name) {
+                return [...state, action.payload];
+            }
+        /* falls through */
         case TASK_CLICKED: {
             let newTasks = state.map((element) => {
                 if (element.name === action.payload.name) {

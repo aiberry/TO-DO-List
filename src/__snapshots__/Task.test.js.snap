@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Task component snapshot renders 1`] = `
+<li
+  className="viewUndone"
+  onClick={[Function]}
+>
+  some2
+</li>
+`;
